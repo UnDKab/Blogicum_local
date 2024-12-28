@@ -20,25 +20,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hkb$y-xfjiv5n%#$@07++9sv%wubjj7stfjkevh#5%ttk#jggv'
+SECRET_KEY = 'django-insecure-v0px55d_*ej$=lyhss)!d93k3f5k0f^40l%ydjiik1vez2s(hj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'pages.apps.PagesConfig',
+    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pages',
-    'blog'
+    'django_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -53,14 +57,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'blogicum.urls'
 
-TEMPLATES_DIR = BASE_DIR / 'static'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+TEMPLATES_DIR = BASE_DIR / 'templates'
 
 TEMPLATES = [
     {
+
+
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
@@ -111,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
@@ -121,13 +123,29 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_REDIRECT_URL = 'blog:index'
+
+LOGIN_URL = 'login'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static_dev',
+]
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_FAILURE_VIEW = 'pages.views.page_csrf_forbidden'
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
